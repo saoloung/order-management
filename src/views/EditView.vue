@@ -110,8 +110,8 @@ const editOrder = async (orderData, orderId) => {
               <td> <input type="text" v-model="product.name"> </td>
               <td> <input type="text" v-model="product.description"> </td>
               <td> <img :src="product.imageUrl"></td>
-              <td> <input type="text" v-model="product.quantity"> </td>
-              <td> <input type="text" v-model="product.price"> </td>
+              <td> <input type="number" v-model="product.quantity"> </td>
+              <td> <input type="number" v-model="product.price"> </td>
               <td> <button @click="deleteProduct(index)">Delete</button> </td>
             </tr>
           </tbody>
@@ -128,7 +128,7 @@ const editOrder = async (orderData, orderId) => {
           <tbody>
             <tr v-for="(shipment, index) in orderData.shipments">
               <td> <input type="text" v-model="shipment.name"> </td>
-              <td> <input type="text" v-model="shipment.quantity"> </td>
+              <td> <input type="number" v-model="shipment.quantity"> </td>
               <td> <button @click="deleteShipment(index)">Delete</button> </td>
             </tr>
           </tbody>
