@@ -7,16 +7,20 @@ const orderStore = useOrderStore()
 const isLoading = ref(false)
 
 onMounted(async () => {
+  isLoading.value = true
   await orderStore.loadOrders()
+  isLoading.value = false
 })
 
 const deleteOrder = async (orderId) => {
+  isLoading.value = true
   try {
     await orderStore.deleteOrder(orderId)
     await orderStore.loadOrders()
   } catch (error) {
     console.log('error', error)
   }
+  isLoading.value = false
 }
 
 </script>
@@ -26,9 +30,14 @@ const deleteOrder = async (orderId) => {
     <h2>
       Order List View
     </h2>
-    <RouterLink :to="{ name: 'order-create' }">
-      <button>Create Order</button>
-    </RouterLink>
+    <div v-if="isLoading">
+      <h1>Loading...</h1>
+    </div>
+    <div>
+      <RouterLink :to="{ name: 'order-create' }">
+        <button>Create Order</button>
+      </RouterLink>
+    </div>
   </div>
   <div>
     <table>
