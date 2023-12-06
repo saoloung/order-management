@@ -93,7 +93,7 @@ const createOrder = async (orderData) => {
                         <tr v-for="product in orderData.products">
                             <td> <input type="text" v-model="product.name"> </td>
                             <td> <input type="text" v-model="product.description"> </td>
-                            <td> <img :src="product.imageUrl"></td>
+                            <td> <input type="text" v-model="product.imageUrl"></td>
                             <td> <input type="number" v-model="product.quantity"> </td>
                             <td> <input type="number" v-model="product.price"> </td>
                         </tr>
