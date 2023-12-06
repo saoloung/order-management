@@ -27,11 +27,15 @@ const addProduct = () => {
   let pLine = {
     name: '',
     description: '',
-    imageUrl: '',
+    imageUrl: 'https://picsum.photos/200',
     quantity: 0,
     price: 0
   }
   orderData.products.push(pLine)
+}
+
+const deleteProduct = (index) => {
+    orderData.products.splice(index, 1)
 }
 
 const addShipment = () => {
@@ -41,6 +45,11 @@ const addShipment = () => {
   }
   orderData.shipments.push(sLine)
 }
+
+const deleteShipment = (index) => {
+    orderData.shipments.splice(index, 1)
+}
+
 const editOrder = async (orderData, orderId) => {
   isLoading.value = true
   await orderStore.editOrder(orderData, orderId)
@@ -93,15 +102,17 @@ const editOrder = async (orderData, orderId) => {
               <th>Pic</th>
               <th>Quantity</th>
               <th>Price</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="product in orderData.products">
+            <tr v-for="(product, index) in orderData.products">
               <td> <input type="text" v-model="product.name"> </td>
               <td> <input type="text" v-model="product.description"> </td>
               <td> <img :src="product.imageUrl"></td>
               <td> <input type="text" v-model="product.quantity"> </td>
               <td> <input type="text" v-model="product.price"> </td>
+              <td> <button @click="deleteProduct(index)">Delete</button> </td>
             </tr>
           </tbody>
         </table>
@@ -111,12 +122,14 @@ const editOrder = async (orderData, orderId) => {
             <tr>
               <th>Name</th>
               <th>Quantity</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="shipment in orderData.shipments">
+            <tr v-for="(shipment, index) in orderData.shipments">
               <td> <input type="text" v-model="shipment.name"> </td>
               <td> <input type="text" v-model="shipment.quantity"> </td>
+              <td> <button @click="deleteShipment(index)">Delete</button> </td>
             </tr>
           </tbody>
         </table>
