@@ -20,6 +20,24 @@ onMounted(async () => {
   orderData.shipments = orderStore.selectedOrder.shipments
 })
 
+const addProduct = () => {  
+    let pLine = {
+        name: '',
+        description: '',
+        imageUrl: '',
+        quantity: 0,
+        price: 0
+    }     
+    orderData.products.push(pLine)
+}
+
+const addShipment = () => {
+    let sLine = {
+        name: '',
+        quantity: 0
+    }
+    orderData.shipments.push(sLine)
+}
 const editOrder = async (orderData, orderId) => {
   await orderStore.editOrder(orderData, orderId)
   alert('update completed')
@@ -60,6 +78,7 @@ const editOrder = async (orderData, orderId) => {
       <div>
         <table>
           <thead>Product
+            <button @click="addProduct()">Add Product</button>
             <tr>
               <th>Name</th>
               <th>Description</th>
@@ -80,6 +99,7 @@ const editOrder = async (orderData, orderId) => {
         </table>
         <table>
           <thead>Shipment
+            <button @click="addShipment()">Add Shipment</button>
             <tr>
               <th>Name</th>
               <th>Quantity</th>
