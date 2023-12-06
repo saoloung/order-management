@@ -31,6 +31,7 @@ export const useOrderStore = defineStore('order', {
     async createOrder(orderData) {
       try {
         const response = await axios.post(`${BASE_URL}/orders`, orderData)
+        this.selectedOrder = response.data
         console.log('add order complete')
       } catch (error) {
         console.log('error', error)

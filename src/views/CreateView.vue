@@ -11,7 +11,7 @@ const orderData = reactive({
     products: [{
         name: '',
         description: '',
-        imageUrl: '',
+        imageUrl: 'https://picsum.photos/200',
         quantity: 0,
         price: 0
     }],
@@ -25,7 +25,7 @@ const addProduct = () => {
     let pLine = {
         name: '',
         description: '',
-        imageUrl: '',
+        imageUrl: 'https://picsum.photos/200',
         quantity: 0,
         price: 0
     }     
@@ -42,6 +42,7 @@ const addShipment = () => {
 
 const createOrder = async (orderData) => {
     await orderStore.createOrder(orderData)
+    orderData.id = orderStore.selectedOrder.id
     alert('create order complete')
 }
 
