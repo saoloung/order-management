@@ -1,9 +1,11 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useOrderStore } from '../stores/order'
 
 const orderStore = useOrderStore()
+const isLoading = ref(false)
+
 const orderData = reactive({
     docNo: '',
     customerName: '',
@@ -21,14 +23,14 @@ const orderData = reactive({
     }]
 })
 
-const addProduct = () => {  
+const addProduct = () => {
     let pLine = {
         name: '',
         description: '',
         imageUrl: 'https://picsum.photos/200',
         quantity: 0,
         price: 0
-    }     
+    }
     orderData.products.push(pLine)
 }
 
@@ -41,8 +43,10 @@ const addShipment = () => {
 }
 
 const createOrder = async (orderData) => {
+    isLoading.value = true
     await orderStore.createOrder(orderData)
     orderData.id = orderStore.selectedOrder.id
+    isLoading.value = false
     alert('create order complete')
 }
 
@@ -54,6 +58,9 @@ const createOrder = async (orderData) => {
         <RouterLink :to="{ name: 'order-list' }">Back</RouterLink>
         <div>
             <h2>Order Header</h2>
+            <div v-if="isLoading">
+                <h1>Loading...</h1>
+            </div>
             <div>
                 Order ID:
                 {{ orderData.id }}

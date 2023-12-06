@@ -8,8 +8,10 @@ const route = useRoute()
 
 const orderId = ref(-1)
 const orderData = reactive({})
+const isLoading = ref(false)
 
 onMounted(async () => {
+  isLoading.value = true
   orderId.value = parseInt(route.params.id)
   await orderStore.loadOrder(orderId.value)
 
@@ -18,30 +20,33 @@ onMounted(async () => {
   orderData.docStatus = orderStore.selectedOrder.docStatus
   orderData.products = orderStore.selectedOrder.products
   orderData.shipments = orderStore.selectedOrder.shipments
+  isLoading.value = false
 })
 
-const addProduct = () => {  
-    let pLine = {
-        name: '',
-        description: '',
-        imageUrl: '',
-        quantity: 0,
-        price: 0
-    }     
-    orderData.products.push(pLine)
+const addProduct = () => {
+  let pLine = {
+    name: '',
+    description: '',
+    imageUrl: '',
+    quantity: 0,
+    price: 0
+  }
+  orderData.products.push(pLine)
 }
 
 const addShipment = () => {
-    let sLine = {
-        name: '',
-        quantity: 0
-    }
-    orderData.shipments.push(sLine)
+  let sLine = {
+    name: '',
+    quantity: 0
+  }
+  orderData.shipments.push(sLine)
 }
 const editOrder = async (orderData, orderId) => {
+  isLoading.value = true
   await orderStore.editOrder(orderData, orderId)
+  isLoading.value = false
   alert('update completed')
-} 
+}
 
 </script>
 
@@ -51,6 +56,9 @@ const editOrder = async (orderData, orderId) => {
     <RouterLink :to="{ name: 'order-list' }">Back</RouterLink>
     <div>
       <h2>Order Header</h2>
+      <div v-if="isLoading">
+        <h1>Loading...</h1>
+      </div>
       <div>
         Order ID:
         {{ orderId }}
