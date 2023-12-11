@@ -2,6 +2,7 @@
 import { reactive, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useOrderStore } from '../stores/order'
+import Table from '../components/Table.vue'
 
 const orderStore = useOrderStore()
 const isLoading = ref(false)
@@ -94,47 +95,30 @@ const createOrder = async (orderData) => {
         <div>
             <h2>Order Detail</h2>
             <div>
-                <table>
-                    <thead>Product
-                        <button @click="addProduct()">Add Product</button>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Pic</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(product, index) in orderData.products">
-                            <td> <input type="text" v-model="product.name"> </td>
-                            <td> <input type="text" v-model="product.description"> </td>
-                            <td> <input type="text" v-model="product.imageUrl"></td>
-                            <td> <input type="number" v-model="product.quantity"> </td>
-                            <td> <input type="number" v-model="product.price"> </td>
-                            <td> <button @click="deleteProduct(index)">Delete</button> </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table>
-                    <thead>Shipment
-                        <button @click="addShipment()">Add Shipment</button>
-                        <tr>
-                            <th>Name</th>
-                            <th>Quantity</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(shipment, index) in orderData.shipments">
-                            <td> <input type="text" v-model="shipment.name"> </td>
-                            <td> <input type="number" v-model="shipment.quantity"> </td>
-                            <td> <button @click="deleteShipment(index)">Delete</button> </td>
-                        </tr>
-                    </tbody>
-                </table>
+                Product
+                <button @click="addProduct()">Add Shipment</button>
             </div>
+            <Table :headers="['Name', 'Description', 'Pic', 'Quantity', 'Price', '']">
+                <tr v-for="(product, index) in orderData.products">
+                    <td> <input type="text" v-model="product.name"> </td>
+                    <td> <input type="text" v-model="product.description"> </td>
+                    <td> <input type="text" v-model="product.imageUrl"></td>
+                    <td> <input type="number" v-model="product.quantity"> </td>
+                    <td> <input type="number" v-model="product.price"> </td>
+                    <td> <button @click="deleteProduct(index)">Delete</button> </td>
+                </tr>
+            </Table>
+            <div>
+                Shipment
+                <button @click="addShipment()">Add Shipment</button>
+            </div>
+            <Table :headers="['Name', 'Description', '']">
+                <tr v-for="(shipment, index) in orderData.shipments">
+                    <td> <input type="text" v-model="shipment.name"> </td>
+                    <td> <input type="number" v-model="shipment.quantity"> </td>
+                    <td> <button @click="deleteShipment(index)">Delete</button> </td>
+                </tr>
+            </Table>
         </div>
     </div>
 </template>

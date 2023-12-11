@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useOrderStore } from '../stores/order'
+import Table from '../components/Table.vue'
 
 const orderStore = useOrderStore()
 const isLoading = ref(false)
@@ -40,30 +41,19 @@ const deleteOrder = async (orderId) => {
     </div>
   </div>
   <div>
-    <table>
-      <thead>
-        <tr>
-          <th>Order ID</th>
-          <th>Doc no.</th>
-          <th>Customer name</th>
-          <th>Doc status</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="order in orderStore.list">
-          <td>{{ order.id }}</td>
-          <td>{{ order.docNo }}</td>
-          <td>{{ order.customerName }}</td>
-          <td>{{ order.docStatus }}</td>
-          <td>
-            <RouterLink :to="{ name: 'order-edit', params: { id: order.id } }">
-              <button>See detail</button>
-            </RouterLink>
-            <button @click="deleteOrder(order.id)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <Table :headers="['Order ID', 'Doc No.', 'Customer Name', 'Doc Status', '']">
+      <tr v-for="order in orderStore.list">
+        <td>{{ order.id }}</td>
+        <td>{{ order.docNo }}</td>
+        <td>{{ order.customerName }}</td>
+        <td>{{ order.docStatus }}</td>
+        <td>
+          <RouterLink :to="{ name: 'order-edit', params: { id: order.id } }">
+            <button>See detail</button>
+          </RouterLink>
+          <button @click="deleteOrder(order.id)">Delete</button>
+        </td>
+      </tr>
+    </Table>
   </div>
 </template>
