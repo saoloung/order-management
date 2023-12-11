@@ -7,6 +7,17 @@ import Table from '../components/Table.vue'
 const orderStore = useOrderStore()
 const isLoading = ref(false)
 
+const formHeader = [
+    {
+        name: 'Order no.:',
+        field: 'docNo'
+    },
+    {
+        name: 'Customer no.:',
+        field: 'customerName'
+    }
+]
+
 const orderData = reactive({
     docNo: '',
     customerName: '',
@@ -74,13 +85,11 @@ const createOrder = async (orderData) => {
                 Order ID:
                 {{ orderData.id }}
             </div>
-            <div>
-                Order no.:
-                <input type="text" v-model="orderData.docNo">
-            </div>
-            <div>
-                Customer name:
-                <input type="text" v-model="orderData.customerName">
+            <div v-for="form in formHeader">
+                <label>
+                    <span> {{ form.name }}</span>
+                </label>
+                <input type="text" v-model="orderData[form.field]">
             </div>
             <div>
                 Doc Status:
@@ -96,7 +105,7 @@ const createOrder = async (orderData) => {
             <h2>Order Detail</h2>
             <div>
                 Product
-                <button @click="addProduct()">Add Shipment</button>
+                <button @click="addProduct()">Add Product</button>
             </div>
             <Table :headers="['Name', 'Description', 'Pic', 'Quantity', 'Price', '']">
                 <tr v-for="(product, index) in orderData.products">
